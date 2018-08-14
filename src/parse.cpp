@@ -73,7 +73,9 @@ int main(int argc, char* argv[])
     }
     
     std::ifstream input(argv[1], std::ios::in | std::ios::binary);
-  
+    std::ofstream nodes_out("parsed_maps/nodes.txt", std::ios::out);
+    std::ofstream ways_out("parsed_maps/ways.txt", std::ios::out);
+    
     char * citaj = new char[318103808];
     
     while(!input.eof())
@@ -126,28 +128,26 @@ int main(int argc, char* argv[])
                 
                 for(const auto& grouptypes : group)
                 {
-                    // parsing way
+                    // parsing ways
                     for(const auto& way : grouptypes.ways())
                     {
-                        long long b = 0;
-                        for(const long long a : way.refs())
+                        ways_out << way.refs().size() << "\n";
+                        for(const long long ref : way.refs())
                         {
-                            cout << a+b << endl;
-                            b = a+b;
+                            ways_out << ref << " ";
                         }
+                        ways_out << "\n";
                     }
                     
-                    // parsing densenodes
-                    long long b = 0;
-                    for(const long long xx : grouptypes.dense().id())
+                    // parsing dense_nodes
+                    if( !grouptypes.dense().id().empty() )
                     {
-                        cout << xx+b << endl;
-                        b += xx;
-                    }
-                    
-                    for(auto node : grouptypes.nodes())
-                    {
-                        cout << "hh" << node.id() << endl;
+                        nodes_out << grouptypes.dense().id().size() << "\n";
+                        for(int i=0;i<grouptypes.dense().id().size();++i)
+                        {
+                            nodes_out << grouptypes.dense().id()[i] << " " << grouptypes.dense().lat()[i] << " " << grouptypes.dense().lon()[i] << " ";
+                        }
+                        nodes_out << "\n";
                     }
                 }
 

@@ -12,4 +12,5 @@ parse.o: prepare_protoc src/parse.cpp
 	$(CFLAGS) -I /usr/ -L /usr/lib src/parse.cpp protofiles/fileformat.pb.cc protofiles/osmformat.pb.cc -lprotobuf -pthread -lz -o parse.o
 
 parse: parse.o
-	time ./parse.o maps/bremen-latest.osm.pbf
+	mkdir -p parsed_maps
+	time ./parse.o maps/slovakia-latest.osm.pbf
