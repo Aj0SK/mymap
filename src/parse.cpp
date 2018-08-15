@@ -142,7 +142,7 @@ int main(int argc, char* argv[])
                     // parsing dense_nodes
                     if( !grouptypes.dense().id().empty() )
                     {
-                        nodes_out << grouptypes.dense().id().size() << "\n";
+                        nodes_out << grouptypes.dense().id().size() << " " << primitiveblock.lat_offset() << " " << primitiveblock.lon_offset() << " " << primitiveblock.granularity() << "\n";
                         for(int i=0;i<grouptypes.dense().id().size();++i)
                         {
                             nodes_out << grouptypes.dense().id()[i] << " " << grouptypes.dense().lat()[i] << " " << grouptypes.dense().lon()[i] << " ";
@@ -150,7 +150,6 @@ int main(int argc, char* argv[])
                         nodes_out << "\n";
                     }
                 }
-
         }
         else
         {
