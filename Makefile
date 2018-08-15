@@ -14,3 +14,5 @@ parse.o: prepare_protoc src/parse.cpp
 parse: parse.o
 	mkdir -p parsed_maps
 	time ./parse.o maps/slovakia-latest.osm.pbf
+visual:
+	cd src && g++ -c -O2 visual.cpp && g++ visual.o -o sfml-app.out -lsfml-graphics -lsfml-window -lsfml-system -lGL -lglut && time ./sfml-app.out
