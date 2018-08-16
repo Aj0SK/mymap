@@ -96,6 +96,9 @@ int main()
     glScaled(1.0, 1.0, 0.0);
     
     bool running = true;
+    
+    double sc = 1.0, r = 0.0, u = 0.0;
+    
     while (running)
     {
         // handle events
@@ -112,8 +115,49 @@ int main()
                 // adjust the viewport when the window is resized
                 glViewport(0, 0, event.size.width, event.size.height);
             }
+            else if(event.type == sf::Event::KeyPressed)
+            {
+                if (event.key.code == sf::Keyboard::Up)
+                {
+                    glTranslated(0.0, -0.05, 0.0);
+                    u += -0.05;
+                }
+                else if (event.key.code == sf::Keyboard::Down)
+                {
+                    glTranslated(0.0, 0.05, 0.0);
+                    u += 0.05;
+                }
+                else if (event.key.code == sf::Keyboard::Left)
+                {
+                    glTranslated(0.05, 0.0, 0.0);
+                    r += 0.05;
+                }
+                else if (event.key.code == sf::Keyboard::Right)
+                {
+                    glTranslated(-0.05, 0.0, 0.0);
+                    r += -0.05;
+                }
+                else if (event.key.code == sf::Keyboard::Q)
+                {
+                    glScaled(1.3, 1.3, 0.0);
+                    sc *= 1.3; 
+                }
+                else if (event.key.code == sf::Keyboard::A)
+                {
+                    glScaled(0.76, 0.76, 0.0);
+                    sc *= 0.76;
+                }
+                else if (event.key.code == sf::Keyboard::R)
+                {
+                    glTranslated(-r, -u, 0.0);
+                    glScaled(1.0/sc, 1.0/sc, 0.0);
+                    r = 0.0;
+                    u = 0.0;
+                    sc = 1.0;
+                }
+            }
         }
-
+        
         // clear the buffers
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
@@ -121,10 +165,9 @@ int main()
         glBegin(GL_LINES);
         
         int k = 0;
-        
         for(const auto& x : ways)
         {
-            if(k >= 100000) break;
+            if(k >= 1000000) break;
             for(int i=0;i+1<x.size();++i)
             {
                 //cout << x[i].first << " " << x[i].second << "\n";
@@ -141,8 +184,8 @@ int main()
                 c /= (double)maxi_lat - stred_lat;
                 d /= (double)maxi_lon - stred_lon;
                 
-                cout << a << " " << b << " " << c << " " << d << "\n";
-                
+                //cout << a << " " << b << " " << c << " " << d << "\n";
+                                
                 glVertex3d(b, a, 0.0);
                 glVertex3d(d, c, 0.0);
             }
